@@ -127,6 +127,12 @@ tr.sum td{font-weight:600}
 .dec li{counter-increment:d;display:grid;grid-template-columns:44px 1fr;gap:12px;align-items:baseline;background:var(--surface);border:1px solid var(--rule);border-radius:10px;padding:14px 16px}
 .dec li::before{content:counter(d);font-family:var(--display);font-weight:700;font-size:1.6rem;color:var(--accent);line-height:1}
 
+.topline{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:12px}
+.topline .ed{background:var(--head);color:var(--head-fg);border-radius:8px;padding:10px 22px;font-family:var(--display);font-weight:700}
+.topline .link{width:40px;border-top:2px dashed var(--accent)}
+.dv.adhoc{border:2px dashed var(--accent);background:var(--surface);max-width:340px}
+@media (max-width:560px){.topline .link{display:none}}
+.pill.adhoc{background:var(--surface);color:var(--accent);border:1.5px dashed var(--accent)}
 footer{font-size:.85rem;color:var(--muted);border-top:1px solid var(--rule);padding-top:16px;display:flex;flex-direction:column;gap:4px}
 </style>
 
@@ -144,7 +150,7 @@ footer{font-size:.85rem;color:var(--muted);border-top:1px solid var(--rule);padd
     <a class="btn" href="org-comparison-4-centers.xlsx">ตารางเปรียบเทียบ (Excel)</a>
   </div>
   <nav class="toc" aria-label="สารบัญ">
-    <a href="#summary">สรุป</a><a href="#compare">เปรียบเทียบ 4 ศูนย์</a><a href="#analysis">วิเคราะห์ MTEC</a><a href="#proposal">ข้อเสนอ</a><a href="#plan">แผนดำเนินการ</a>
+    <a href="#summary">สรุป</a><a href="#compare">เปรียบเทียบ 4 ศูนย์</a><a href="#analysis">วิเคราะห์ MTEC</a><a href="#proposal">ข้อเสนอ</a><a href="#ai">หน่วยงานเฉพาะกิจ AI</a><a href="#plan">แผนดำเนินการ</a>
   </nav>
 </header>
 
@@ -153,7 +159,7 @@ footer{font-size:.85rem;color:var(--muted);border-top:1px solid var(--rule);padd
   <div class="grid3">
     <div class="card top"><p class="k">สิ่งที่พบ</p><h3>แม่แบบเดียวกัน แต่น้ำหนักต่างกัน</h3><ul><li>ทุกศูนย์มีรองผู้อำนวยการ 4 ด้าน</li><li>MTEC มีงานต่อฝ่ายสูงสุด (3.0) และสายสนับสนุนใหญ่ที่สุด (13 งาน)</li></ul></div>
     <div class="card top"><p class="k">ประเด็นของ MTEC</p><h3>2 เรื่องที่ควรจัดใหม่</h3><ul><li>งานเครื่องมือ (ESS) อยู่ในฝ่ายธุรการ และยังไม่มีงานระบบคุณภาพห้องปฏิบัติการ</li><li>งานพัฒนาคนแยกอยู่ 2 ฝ่าย</li></ul></div>
-    <div class="card top"><p class="k">ข้อเสนอ</p><h3>เพิ่ม 1 ฝ่าย 1 งาน และย้าย 2 งาน</h3><ul><li>ตั้งฝ่าย RIE รวม ESS กับงานระบบคุณภาพใหม่ (LQS)</li><li>รวมงานพัฒนาคนเป็นฝ่าย HKD</li><li>คงกลุ่มวิจัยและรองผู้อำนวยการ 4 ด้าน</li></ul></div>
+    <div class="card top"><p class="k">ข้อเสนอ</p><h3>เพิ่ม 1 ฝ่าย 1 งาน และย้าย 2 งาน</h3><ul><li>ตั้งฝ่าย RIE รวม ESS กับงานระบบคุณภาพใหม่ (LQS)</li><li>รวมงานพัฒนาคนเป็นฝ่าย HKD</li><li>ตั้งคณะทำงานเฉพาะกิจด้าน AI (AITF) ขึ้นตรงต่อผู้อำนวยการ</li><li>คงกลุ่มวิจัยและรองผู้อำนวยการ 4 ด้าน</li></ul></div>
   </div>
   <div class="ask"><b>สิ่งที่ขอ</b><span>เห็นชอบในหลักการ และมอบหมายจัดทำข้อมูลอัตรากำลังรายหน่วย เพื่อยืนยันข้อเสนอ</span></div>
 </section>
@@ -224,7 +230,11 @@ footer{font-size:.85rem;color:var(--muted);border-top:1px solid var(--rule);padd
   <div class="principle"><p class="eyebrow" style="color:#CFE6EF">หลักการของข้อเสนอ</p><h3>เติมหน้าที่ที่ขาด รวมงานที่กระจาย</h3><p>คงกลุ่มวิจัย 6 กลุ่ม สถาบัน TIIS และรองผู้อำนวยการ 4 ด้านไว้ตามเดิม ปรับเฉพาะสายบริหาร</p></div>
 
   <div class="sec-head"><p class="eyebrow">ข้อเสนอ</p><h2>โครงสร้างที่เสนอ</h2></div>
-  <div class="legend"><span><i class="sw"></i>คงเดิม</span><span><i class="sw new"></i>หน่วยงานใหม่</span><span><i class="sw chg"></i>ย้าย เปลี่ยนชื่อ หรือปรับภารกิจ</span></div>
+  <div class="legend"><span><i class="sw"></i>คงเดิม</span><span><i class="sw new"></i>หน่วยงานใหม่</span><span><i class="sw chg"></i>ย้าย เปลี่ยนชื่อ หรือปรับภารกิจ</span><span><i class="sw" style="border:2px dashed var(--accent)"></i>หน่วยงานเฉพาะกิจ</span></div>
+  <div class="topline">
+    <div class="ed">ผู้อำนวยการ</div><div class="link" aria-hidden="true"></div>
+    <div class="dv adhoc"><span class="h"><b>AITF</b> <span class="tn">เฉพาะกิจ</span> คณะทำงานเฉพาะกิจด้าน AI</span><span class="s">ขึ้นตรงต่อผู้อำนวยการ · รูปแบบเมทริกซ์ · อายุ 12–24 เดือน</span></div>
+  </div>
   <div class="org">
     <div class="col">
       <div class="dep">รองฯ วิจัยและพัฒนา 2 ด้าน</div>
@@ -251,7 +261,7 @@ footer{font-size:.85rem;color:var(--muted);border-top:1px solid var(--rule);padd
     </div>
   </div>
 
-  <h3>ทะเบียนการเปลี่ยนแปลง 7 รายการ</h3>
+  <h3>ทะเบียนการเปลี่ยนแปลง 8 รายการ</h3>
   <div class="tbl"><table>
     <thead><tr><th class="num">#</th><th>ประเภท</th><th>หน่วยงาน</th><th>จาก → ไป</th><th>เหตุผล / เทียบศูนย์อื่น</th></tr></thead>
     <tbody>
@@ -262,6 +272,7 @@ footer{font-size:.85rem;color:var(--muted);border-top:1px solid var(--rule);padd
       <tr><td class="num">5</td><td><span class="pill chg">เปลี่ยนชื่อ</span></td><td>ฝ่าย MTD → ฝ่ายพัฒนาบุคลากรและขับเคลื่อนความรู้ (HKD)</td><td>คงใต้รองฯ ด้านบริหาร</td><td>ขยายภารกิจให้ครอบคลุม HR ภายใน (SHOD) กำลังคนด้านวัสดุ (HMS) และการสื่อสารความรู้ (KMC)</td></tr>
       <tr><td class="num">6</td><td><span class="pill chg">ปรับภารกิจ</span></td><td>ฝ่ายแผนกลยุทธ์และประเมินผล (PSE)</td><td>3 งาน → 2 งาน</td><td>เหลืองาน PSS และ OES ใช้ RACI ประสานกับงาน RISD</td></tr>
       <tr><td class="num">7</td><td><span class="pill chg">ปรับภารกิจ</span></td><td>ฝ่ายบริหารงานทั่วไป (GMD)</td><td>3 งาน → 2 งาน</td><td>เหลืองานธุรการ (GAD) และงานเลขานุการผู้บริหาร (SEC)</td></tr>
+      <tr><td class="num">8</td><td><span class="pill adhoc">เฉพาะกิจ</span></td><td>คณะทำงานเฉพาะกิจด้าน AI (AITF)</td><td>– → ขึ้นตรงต่อผู้อำนวยการ</td><td>งาน AI ด้านวัสดุและด้านงานบริหารอยู่คนละสาย จึงรายงานตรงต่อผู้อำนวยการ ใช้รูปแบบเมทริกซ์ ไม่เพิ่มฝ่ายในผัง</td></tr>
     </tbody>
   </table></div>
 
@@ -271,13 +282,54 @@ footer{font-size:.85rem;color:var(--muted);border-top:1px solid var(--rule);padd
     <div class="num-card"><span class="v">21 → 22</span><span class="l">งาน</span><span class="c">เพิ่มงาน LQS</span></div>
     <div class="num-card same"><span class="v">6</span><span class="l">กลุ่มวิจัย</span><span class="c">คงเดิม รวมสถาบัน TIIS</span></div>
     <div class="num-card same"><span class="v">4</span><span class="l">รองผู้อำนวยการ</span><span class="c">คงเดิม · สายสนับสนุน 4 ฝ่าย 13 งาน · สายบริหาร 4 ฝ่าย 9 งาน</span></div>
+    <div class="num-card"><span class="v">+1</span><span class="l">หน่วยงานเฉพาะกิจ</span><span class="c">AITF ขึ้นตรงต่อผู้อำนวยการ ไม่นับเป็นฝ่าย</span></div>
+  </div>
+</section>
+
+<section id="ai">
+  <div class="sec-head"><p class="eyebrow">หน่วยงานเฉพาะกิจ</p><h2>คณะทำงานเฉพาะกิจด้าน AI (AITF)</h2>
+  <p class="muted">ข้อเสนอคือให้ขึ้นตรงต่อผู้อำนวยการ ในรูปแบบคณะทำงานเมทริกซ์ที่ดึงคนจากหลายหน่วยมาทำงานร่วมกัน ไม่ตั้งเป็นฝ่ายใหม่ และกำหนดอายุ 12–24 เดือน</p></div>
+
+  <div class="grid3">
+    <div class="card top"><p class="k">AI for Materials</p><h3>งานวิจัยและบริการเทคนิค</h3><p class="muted">ทำนายสมบัติวัสดุ วัสดุสารสนเทศ และห้องปฏิบัติการอัตโนมัติ ใช้ข้อมูลจากกลุ่มวิจัยและฝ่าย TSMA</p></div>
+    <div class="card top"><p class="k">AI for Operations</p><h3>งานสนับสนุนและงานบริหาร</h3><p class="muted">บริหารโครงการ จัดซื้อจัดจ้าง HR และการจัดการความรู้ ในสายสนับสนุนและสายบริหาร</p></div>
+    <div class="card top"><p class="k">เหตุผล</p><h3>สองด้านอยู่คนละสายบังคับบัญชา</h3><p class="muted">ถ้าวางไว้ใต้รองฯ คนใดคนหนึ่งจะทำได้ด้านเดียว และงานเฉพาะกิจต้องการผลเร็ว จึงควรรายงานตรงต่อผู้อำนวยการ</p></div>
+  </div>
+
+  <h3>ทางเลือกตำแหน่งในโครงสร้าง</h3>
+  <div class="tbl"><table>
+    <thead><tr><th>ตำแหน่ง</th><th>ข้อดี</th><th>ข้อเสีย</th><th>เหมาะเมื่อ</th></tr></thead>
+    <tbody>
+      <tr><td class="mt">ขึ้นตรงต่อผู้อำนวยการ (เสนอ)</td><td>สั่งการข้ามทุกสาย ทำได้ทั้งงานวิจัยและงานบริหาร</td><td>ผู้อำนวยการดูแลเพิ่ม 1 หน่วย ต้องกำหนดอายุ</td><td>ขับเคลื่อน AI ทั้งองค์กรในเวลาจำกัด</td></tr>
+      <tr><td>ใต้รองฯ วิจัยและพัฒนา (2) ใกล้กลุ่มวิจัย EDC</td><td>อยู่ใกล้คนด้านการคำนวณ เริ่มงานวัสดุสารสนเทศได้ทันที</td><td>ผลักดันงานสนับสนุนหรืองานบริหารไม่ได้</td><td>เน้น AI for Materials อย่างเดียว</td></tr>
+      <tr><td>ใต้รองฯ ด้านสนับสนุน ในฝ่าย RIS</td><td>เชื่อมยุทธศาสตร์ และหาพันธมิตรหรือทุนผ่าน SAPD</td><td>ไม่มีคนสายเทคนิค AI และสายนี้หนาแน่นที่สุดอยู่แล้ว</td><td>เน้นยุทธศาสตร์และความร่วมมือ</td></tr>
+      <tr><td>ใต้รองฯ ด้านบริหาร ในฝ่าย HKD หรือ PSE</td><td>เหมาะกับพัฒนาทักษะ AI และเพิ่มประสิทธิภาพงานสนับสนุน</td><td>ไม่ช่วยงานวิจัย อำนาจข้ามสายน้อย</td><td>เน้น AI for Operations</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>องค์ประกอบคณะทำงาน</h3>
+  <div class="tbl"><table>
+    <thead><tr><th>บทบาท</th><th>มาจาก</th><th>หน้าที่</th></tr></thead>
+    <tbody>
+      <tr><td>หัวหน้าคณะทำงาน</td><td>กลุ่มวิจัย EDC หรือสถาบัน TIIS</td><td>มีพื้นฐานด้านการคำนวณและสารสนเทศ</td></tr>
+      <tr><td>ข้อมูลห้องปฏิบัติการ</td><td>ฝ่าย TSMA</td><td>จัดการข้อมูลผลวิเคราะห์ทดสอบ ซึ่งเป็นแหล่งข้อมูลสำหรับ AI ที่ใหญ่ที่สุดของ MTEC</td></tr>
+      <tr><td>ยุทธศาสตร์และพันธมิตร</td><td>ฝ่าย RIS (RISD, SAPD)</td><td>ทำแผน AI และประสานความร่วมมือ รวมถึงกับต่างประเทศ</td></tr>
+      <tr><td>พัฒนาบุคลากร</td><td>ฝ่าย HKD (หรือ SHOD/HMS ในผังปัจจุบัน)</td><td>หลักสูตร AI สำหรับบุคลากร</td></tr>
+      <tr><td>งานสนับสนุน</td><td>ฝ่าย RPM, BDD, GMD</td><td>หาโจทย์ที่ใช้ AI เพิ่มประสิทธิภาพงานได้</td></tr>
+      <tr><td>เลขานุการคณะทำงาน</td><td>ฝ่าย RIS</td><td>ติดตามผลและรายงานผู้อำนวยการ</td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="rows">
+    <div class="row"><b>ประสานกับ NECTEC</b><span>ใช้ความร่วมมือกับกลุ่มวิจัย AINRG และศูนย์ ThaiSC เพื่อไม่ต้องลงทุนซ้ำ</span></div>
+    <div class="row"><b>เมื่อครบ 12–24 เดือน</b><span>งาน AI ด้านวัสดุเติบโต ให้ตั้งเป็นกลุ่มวิจัยใหม่ใต้รองฯ วิจัยและพัฒนา (2) หรือรวมกับ EDC · งาน AI ด้านบริหาร ให้โอนเป็นภารกิจประจำของฝ่าย HKD หรือ PSE · ถ้าผลไม่ชัด ให้ยุบโดยไม่ต้องแก้ผัง</span></div>
   </div>
 </section>
 
 <section id="plan">
   <div class="sec-head"><p class="eyebrow">การดำเนินการ</p><h2>แผนดำเนินการ 3 ระยะ</h2></div>
   <div class="grid3">
-    <div class="card top phase"><p class="k">1 · ทำได้ทันที ไม่ต้องแก้ผัง</p><ul><li>ทำ RACI ระหว่าง RISD กับ PSS</li><li>ตั้ง one-stop ลูกค้า ใช้ CRM ร่วม (IBL · SAPD · CS)</li><li>ตั้ง KPI ทุนและเครือข่ายต่างประเทศให้ SAPD</li><li>ตั้ง KPI ฝ่าย TSMA: รายได้ อัตราคืนทุน ระยะเวลาบริการ ISO/IEC 17025</li></ul></div>
+    <div class="card top phase"><p class="k">1 · ทำได้ทันที ไม่ต้องแก้ผัง</p><ul><li>ทำ RACI ระหว่าง RISD กับ PSS</li><li>ตั้ง one-stop ลูกค้า ใช้ CRM ร่วม (IBL · SAPD · CS)</li><li>ตั้ง KPI ทุนและเครือข่ายต่างประเทศให้ SAPD</li><li>ตั้งคณะทำงานเฉพาะกิจด้าน AI (AITF) พร้อมเป้าหมายและ KPI</li><li>ตั้ง KPI ฝ่าย TSMA: รายได้ อัตราคืนทุน ระยะเวลาบริการ ISO/IEC 17025</li></ul></div>
     <div class="card top phase"><p class="k">2 · ระยะสั้น 0–6 เดือน</p><ul><li>เก็บข้อมูลอัตรากำลังรายหน่วย</li><li>จัดทำ JD และ Role Profile</li><li>ศึกษาความเป็นไปได้ของฝ่าย RIE และ HKD</li></ul></div>
     <div class="card top phase"><p class="k">3 · รอบทบทวนโครงสร้างถัดไป</p><ul><li>เสนอผังใหม่ (RIE · HKD)</li><li>พิจารณาแยก TSMA เป็น 2 ฝ่าย</li><li>เสนอ สวทช. ปรับชื่อย่อให้ไม่ซ้ำข้ามศูนย์</li></ul></div>
   </div>
@@ -288,6 +340,7 @@ footer{font-size:.85rem;color:var(--muted);border-top:1px solid var(--rule);padd
     <li><span>มอบหมายหน่วยงานรับผิดชอบ จัดทำข้อมูลอัตรากำลังรายหน่วย เพื่อยืนยันข้อเสนอ</span></li>
     <li><span>เลือกแนวทางของฝ่าย TSMA: คงไว้ 5 งาน หรือแยกเป็นฝ่ายวิเคราะห์กับฝ่ายทดสอบ</span></li>
     <li><span>อนุมัติให้เริ่มมาตรการระยะที่ 1 ซึ่งไม่ต้องแก้ผังได้ทันที</span></li>
+    <li><span>อนุมัติตั้งคณะทำงานเฉพาะกิจด้าน AI (AITF) ขึ้นตรงต่อผู้อำนวยการ อายุ 12–24 เดือน และแต่งตั้งหัวหน้าคณะทำงาน</span></li>
   </ol>
 </section>
 

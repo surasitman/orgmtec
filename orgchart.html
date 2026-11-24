@@ -111,6 +111,12 @@ button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 .st-new .tag{background:var(--new);color:var(--surface)}
 .st-moved{border-color:var(--moved);background:var(--moved-bg)}
 .st-moved .tag{background:var(--moved);color:var(--surface)}
+.st-adhoc{border:2px dashed var(--accent);background:var(--sheet)}
+.st-adhoc .tag{background:var(--accent);color:var(--surface)}
+.node .sub{font-size:.72rem;color:var(--muted);margin-top:4px;line-height:1.35}
+.ed-wrap{position:relative}
+.adhoc-link{position:absolute;left:100%;top:50%;width:48px;border-top:2px dashed var(--accent)}
+.ed-wrap>.node.adhoc{position:absolute;left:calc(100% + 48px);top:50%;transform:translateY(-50%);width:290px}
 .st-renamed{border-color:var(--renamed);background:var(--renamed-bg)}
 .st-renamed .tag{background:var(--renamed);color:var(--surface)}
 
@@ -157,6 +163,7 @@ td.n{font-variant-numeric:tabular-nums;color:var(--muted);width:36px}
     <span><i class="sw new"></i>หน่วยงานใหม่</span>
     <span><i class="sw moved"></i>ย้ายสังกัด</span>
     <span><i class="sw renamed"></i>เปลี่ยนชื่อหรือขยายภารกิจ</span>
+    <span><i class="sw" style="border:2px dashed var(--accent)"></i>หน่วยงานเฉพาะกิจ</span>
     <span><i class="sw" style="border:3px double var(--line)"></i>สถาบัน</span>
   </div>
 
@@ -174,6 +181,7 @@ td.n{font-variant-numeric:tabular-nums;color:var(--muted);width:36px}
         <tr><td class="n">5</td><td><span class="pill renamed">เปลี่ยนชื่อ</span></td><td>ฝ่ายเผยแพร่ความรู้เทคโนโลยีวัสดุ (MTD) → ฝ่ายพัฒนาบุคลากรและขับเคลื่อนความรู้ (HKD)</td><td>คงอยู่ใต้รองฯ ด้านบริหาร</td><td>ขยายภารกิจให้ครอบคลุม HR ภายใน (SHOD) กำลังคนด้านวัสดุ (HMS) และการสื่อสารความรู้ (KMC)</td></tr>
         <tr><td class="n">6</td><td><span class="pill renamed">ปรับภารกิจ</span></td><td>ฝ่ายแผนกลยุทธ์และประเมินผล (PSE)</td><td>3 งาน → 2 งาน</td><td>เหลืองาน PSS และ OES ใช้เป็นจุดประสานกับงาน RISD ผ่าน RACI และใช้รอบแผนร่วมกัน</td></tr>
         <tr><td class="n">7</td><td><span class="pill renamed">ปรับภารกิจ</span></td><td>ฝ่ายบริหารงานทั่วไป (GMD)</td><td>3 งาน → 2 งาน</td><td>เหลือเฉพาะงานธุรการ (GAD) และงานเลขานุการผู้บริหาร (SEC)</td></tr>
+        <tr><td class="n">8</td><td><span class="pill new">เฉพาะกิจ</span></td><td>คณะทำงานเฉพาะกิจด้าน AI (AITF)</td><td>– → ขึ้นตรงต่อผู้อำนวยการ</td><td>AI ของ MTEC ต้องทำทั้งด้านวัสดุ (กลุ่มวิจัย, TSMA) และด้านงานบริหาร (สายสนับสนุนและสายบริหาร) ซึ่งอยู่คนละสาย จึงต้องรายงานตรงต่อผู้อำนวยการ ใช้รูปแบบเมทริกซ์ อายุ 12–24 เดือน ไม่เพิ่มฝ่ายในผัง</td></tr>
       </tbody>
     </table></div>
   </section>
@@ -194,6 +202,7 @@ td.n{font-variant-numeric:tabular-nums;color:var(--muted);width:36px}
       <ul>
         <li><strong>ภาระของรองฯ ด้านสนับสนุน</strong> ยังมี 4 ฝ่าย 13 งาน ทางเลือกคือแยก TSMA เป็นฝ่ายวิเคราะห์ (PHA, CBA, MMS) กับฝ่ายทดสอบ (PHM, BDT)</li>
         <li><strong>อัตรากำลังของงานใหม่ 1 งาน</strong> (LQS) ควรใช้วิธีโอนย้ายคนจากงานเดิมก่อนเปิดอัตราใหม่ ต้องยืนยันด้วยข้อมูลบุคลากรรายหน่วย</li>
+        <li><strong>ขอบเขตของคณะทำงาน AI (AITF)</strong> ต้องกำหนดเป้าหมาย 2 ด้าน (AI for Materials และ AI for Operations) KPI และเกณฑ์ประเมินเมื่อครบอายุ ว่าจะตั้งเป็นกลุ่มวิจัย โอนเป็นงานประจำ หรือยุบ และควรประสานกับกลุ่มวิจัย AINRG และศูนย์ ThaiSC ของ NECTEC</li>
         <li><strong>RACI ระหว่างงาน RISD กับ PSS</strong> ต้องแบ่งให้ชัดว่าใครดูแผนวิจัยและใครดูแผนองค์กร</li>
         <li><strong>ชื่อย่อใหม่</strong> (RIE, LQS, HKD) เลือกให้ไม่ซ้ำกับหน่วยงานของศูนย์อื่นที่มีอยู่ในผัง แต่ควรตรวจกับทะเบียนชื่อย่อของ สวทช. อีกครั้ง</li>
       </ul>
@@ -266,20 +275,22 @@ const PROPOSED=[
    D("ฝ่ายบริหารงานทั่วไป","General Management Division","GMD",[S.GAD,S.SEC])]}),
 ];
 
-const LABEL={new:"ใหม่",moved:"ย้าย",renamed:"เปลี่ยนชื่อ"};
+const LABEL={new:"ใหม่",moved:"ย้าย",renamed:"เปลี่ยนชื่อ",adhoc:"เฉพาะกิจ"};
+const AITF=N("คณะทำงานเฉพาะกิจด้าน AI","AI Task Force · matrix, 12–24 months","AITF",{st:"adhoc",sub:"สมาชิกจาก EDC/TIIS · TSMA · RIS · HKD · RPM/BDD/GMD · เลขานุการ: RIS"});
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 function node(n,cls){
   const st=n.st?` st-${n.st}`:"";
   return `<div class="node ${cls}${st}"><div class="th">${esc(n.th)}</div><div class="en">${esc(n.en)}</div>`+
    (n.ab||n.st?`<div class="meta">${n.ab?`<span class="ab">${esc(n.ab)}</span>`:""}${n.st?`<span class="tag">${LABEL[n.st]}</span>`:""}</div>`:"")+
-   (n.from?`<div class="from">${esc(n.from)}</div>`:"")+`</div>`;
+   (n.from?`<div class="from">${esc(n.from)}</div>`:"")+(n.sub?`<div class="sub">${esc(n.sub)}</div>`:"")+`</div>`;
 }
-function render(deps){
+function render(deps,adhoc){
   const lis=deps.map(d=>{
     if(d.stack) return `<li class="dep-li">${node(d,"dep")}<div class="stack">${d.stack.map(x=>node(x,x.k==="inst"?"rg inst":"rg")).join("")}</div></li>`;
     return `<li class="dep-wide">${node(d,"dep")}<ul>${d.divs.map(v=>`<li class="div-li">${node(v,"div")}<div class="stack">${v.secs.map(s=>node(s,"sec")).join("")}</div></li>`).join("")}</ul></li>`;
   }).join("");
-  return `<div class="tree">${node(ED,"ed")}<ul>${lis}</ul></div>`;
+  const top=`<div class="ed-wrap">${node(ED,"ed")}${adhoc?`<div class="adhoc-link"></div>${node(adhoc,"adhoc")}`:""}</div>`;
+  return `<div class="tree">${top}<ul>${lis}</ul></div>`;
 }
 function count(deps){
   let rg=0,inst=0,div=0,sec=0;
@@ -291,14 +302,15 @@ const items=[["รองผู้อำนวยการ","dep"],["กลุ่
 document.getElementById("stats").innerHTML=items.map(([k,f])=>{
   const d=pro[f]-cur[f];
   return `<div class="stat"><span class="k">${k}</span><span class="v">${pro[f]}</span><span class="d ${d>0?"up":"same"}">${d>0?`+${d} จากเดิม ${cur[f]}`:`เท่าเดิม`}</span></div>`;
-}).join("")+`<div class="stat"><span class="k">งานต่อฝ่าย</span><span class="v">${(pro.sec/pro.div).toFixed(1)}</span><span class="d same">เดิม ${(cur.sec/cur.div).toFixed(1)}</span></div>`;
+}).join("")+`<div class="stat"><span class="k">งานต่อฝ่าย</span><span class="v">${(pro.sec/pro.div).toFixed(1)}</span><span class="d same">เดิม ${(cur.sec/cur.div).toFixed(1)}</span></div>`+
+  `<div class="stat"><span class="k">หน่วยงานเฉพาะกิจ</span><span class="v">1</span><span class="d up">AITF ขึ้นตรงต่อผู้อำนวยการ</span></div>`;
 
 const chart=document.getElementById("chart"),sheet=document.getElementById("sheet");
 let view="proposed",z=1;
 function applyZoom(){chart.style.zoom=z}
 function show(v){
   view=v;
-  chart.innerHTML=render(v==="proposed"?PROPOSED:CURRENT);
+  chart.innerHTML=v==="proposed"?render(PROPOSED,AITF):render(CURRENT);
   document.querySelectorAll(".tabs button").forEach(b=>b.setAttribute("aria-selected",String(b.dataset.view===v)));
   document.getElementById("legend").style.visibility=v==="proposed"?"visible":"hidden";
   applyZoom();
