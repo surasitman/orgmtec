@@ -1,0 +1,318 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>ผังองค์กร MTEC ฉบับเสนอ</title>
+</head>
+<body>
+
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@500;600;700&family=IBM+Plex+Sans+Thai:wght@400;500;600&display=swap">
+<style>
+/* Layout: engineering-drawing feel — a cool steel ground, a wide scrollable chart sheet, then the change register below. */
+:root{
+  --bg:#F3F5F7; --surface:#FFFFFF; --sheet:#FAFBFC; --fg:#18222D; --muted:#5A6774; --line:#8E9BA8; --rule:#D9DFE5;
+  --accent:#1E5E78; --head-bg:#1D3445; --head-fg:#FFFFFF; --dep-bg:#E4ECF1;
+  --new:#23774A; --new-bg:#E5F4EB; --moved:#A35F00; --moved-bg:#FBF0DF; --renamed:#5443AE; --renamed-bg:#ECE9F8;
+  --display:"Bai Jamjuree","IBM Plex Sans Thai","Leelawadee UI","Tahoma",sans-serif;
+  --body:"IBM Plex Sans Thai","Leelawadee UI","Tahoma",sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#10151B; --surface:#18202A; --sheet:#141B23; --fg:#E3E8ED; --muted:#99A5B1; --line:#56636F; --rule:#2A3541;
+  --accent:#73B6D1; --head-bg:#2B4A5F; --head-fg:#F4F8FB; --dep-bg:#1F2C37;
+  --new:#62C68F; --new-bg:#173326; --moved:#E3A54B; --moved-bg:#3A2A12; --renamed:#A99BF0; --renamed-bg:#28234A;
+  color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#10151B; --surface:#18202A; --sheet:#141B23; --fg:#E3E8ED; --muted:#99A5B1; --line:#56636F; --rule:#2A3541;
+  --accent:#73B6D1; --head-bg:#2B4A5F; --head-fg:#F4F8FB; --dep-bg:#1F2C37;
+  --new:#62C68F; --new-bg:#173326; --moved:#E3A54B; --moved-bg:#3A2A12; --renamed:#A99BF0; --renamed-bg:#28234A;
+  color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:15px;line-height:1.55}
+.wrap{max-width:1240px;margin:0 auto;padding-block:28px 48px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:flex;flex-direction:column;gap:28px}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;line-height:1.25}
+h1{font-size:clamp(1.5rem,3.2vw,2.1rem);font-weight:700}
+h2{font-size:1.25rem;font-weight:600}
+.eyebrow{font-size:.78rem;letter-spacing:.06em;text-transform:uppercase;color:var(--accent);font-weight:600}
+.lede{color:var(--muted);max-width:68ch;margin:6px 0 0}
+header{display:flex;flex-direction:column;gap:4px}
+
+/* controls */
+.bar{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between}
+.tabs{display:inline-flex;border:1px solid var(--rule);border-radius:8px;background:var(--surface);padding:3px;gap:3px}
+.tabs button,.zoom button{font:inherit;font-size:.9rem;border:0;background:transparent;color:var(--muted);padding:7px 14px;border-radius:6px;cursor:pointer}
+.tabs button[aria-selected="true"]{background:var(--head-bg);color:var(--head-fg);font-weight:600}
+.zoom{display:inline-flex;gap:4px;align-items:center;color:var(--muted);font-size:.85rem}
+.zoom button{border:1px solid var(--rule);background:var(--surface);color:var(--fg);padding:5px 10px}
+button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.legend{display:flex;flex-wrap:wrap;gap:8px 16px;font-size:.85rem;color:var(--muted)}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.sw{width:22px;height:14px;border-radius:3px;border:1.5px solid var(--line);background:var(--surface)}
+.sw.new{border:1.5px dashed var(--new);background:var(--new-bg)}
+.sw.moved{border-color:var(--moved);background:var(--moved-bg)}
+.sw.renamed{border-color:var(--renamed);background:var(--renamed-bg)}
+
+/* stats */
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1px;background:var(--rule);border:1px solid var(--rule);border-radius:10px;overflow:hidden}
+.stat{background:var(--surface);padding:12px 16px;display:flex;flex-direction:column;gap:2px}
+.stat .k{font-size:.8rem;color:var(--muted)}
+.stat .v{font-family:var(--display);font-size:1.5rem;font-weight:700;font-variant-numeric:tabular-nums}
+.stat .d{font-size:.8rem;font-variant-numeric:tabular-nums}
+.d.up{color:var(--new)} .d.same{color:var(--muted)}
+
+/* chart sheet */
+.sheet{background:var(--sheet);border:1px solid var(--rule);border-radius:10px;overflow-x:auto;overflow-y:hidden;
+  background-image:linear-gradient(var(--rule) 1px,transparent 1px),linear-gradient(90deg,var(--rule) 1px,transparent 1px);background-size:24px 24px;background-position:-1px -1px}
+.sheet-inner{padding:24px 24px 32px;width:max-content;margin:0 auto}
+.tree{display:flex;flex-direction:column;align-items:center}
+.tree ul{display:flex;justify-content:center;align-items:flex-start;padding:22px 0 0;margin:0;position:relative}
+.tree ul::before{content:"";position:absolute;top:0;left:50%;height:22px;border-left:1.5px solid var(--line)}
+.tree li{list-style:none;position:relative;padding:22px 6px 0;display:flex;flex-direction:column;align-items:center}
+.tree li::before,.tree li::after{content:"";position:absolute;top:0;right:50%;width:50%;height:22px;border-top:1.5px solid var(--line)}
+.tree li::after{right:auto;left:50%;border-left:1.5px solid var(--line)}
+.tree li:first-child::before,.tree li:last-child::after{border:0}
+.tree li:last-child::before{border-right:1.5px solid var(--line);border-radius:0 6px 0 0}
+.tree li:first-child::after{border-radius:6px 0 0 0}
+.tree li:only-child::before{display:none}
+.tree li:only-child::after{border-top:0;border-radius:0}
+
+.node{background:var(--surface);border:1.5px solid var(--line);border-radius:6px;padding:8px 10px;text-align:left;position:relative;width:100%}
+.node .th{font-weight:600;font-size:.86rem;line-height:1.35}
+.node .en{font-size:.72rem;color:var(--muted);line-height:1.3;margin-top:2px}
+.node .meta{display:flex;align-items:center;gap:6px;margin-top:5px;flex-wrap:wrap}
+.ab{font-family:var(--display);font-weight:700;font-size:.78rem;letter-spacing:.03em;color:var(--accent)}
+.tag{font-size:.68rem;font-weight:600;padding:1px 7px;border-radius:999px}
+.from{font-size:.7rem;color:var(--moved);margin-top:3px}
+.node.ed{width:300px;text-align:center;background:var(--head-bg);color:var(--head-fg);border-color:var(--head-bg);padding:12px}
+.node.ed .th{font-family:var(--display);font-size:1.15rem}
+.node.ed .en{color:var(--head-fg);opacity:.8;font-size:.82rem}
+.node.dep{background:var(--dep-bg);border-color:var(--accent);text-align:center;min-height:96px;display:flex;flex-direction:column;justify-content:center}
+.node.dep .th{font-family:var(--display);font-size:.92rem}
+.node.div .th{font-size:.84rem}
+.node.div{border-width:2px}
+.node.sec,.node.rg{font-size:.95em}
+.node.sec .th{font-weight:500;font-size:.8rem}
+.node.inst{border-style:double;border-width:3px}
+
+.dep-li{width:236px;align-items:stretch!important}
+.dep-wide>.node.dep{width:260px;align-self:center}
+.div-li{width:184px;align-items:stretch!important}
+
+.stack{display:flex;flex-direction:column;gap:10px;margin-top:10px;padding-left:22px}
+.stack>.node::before{content:"";position:absolute;left:-14px;top:-11px;height:calc(50% + 11px);width:12px;border-left:1.5px solid var(--line);border-bottom:1.5px solid var(--line)}
+.stack>.node:not(:last-child)::after{content:"";position:absolute;left:-14px;top:50%;bottom:-11px;border-left:1.5px solid var(--line)}
+
+.st-new{border-style:dashed;border-color:var(--new);background:var(--new-bg)}
+.st-new .tag{background:var(--new);color:var(--surface)}
+.st-moved{border-color:var(--moved);background:var(--moved-bg)}
+.st-moved .tag{background:var(--moved);color:var(--surface)}
+.st-renamed{border-color:var(--renamed);background:var(--renamed-bg)}
+.st-renamed .tag{background:var(--renamed);color:var(--surface)}
+
+/* register */
+.panel{background:var(--surface);border:1px solid var(--rule);border-radius:10px;padding:20px;display:flex;flex-direction:column;gap:14px;min-width:0}
+.tbl-wrap{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:.88rem;min-width:720px}
+th,td{text-align:left;vertical-align:top;padding:9px 10px;border-bottom:1px solid var(--rule)}
+th{font-family:var(--display);font-weight:600;color:var(--muted);font-size:.8rem;letter-spacing:.03em;background:var(--sheet)}
+td.n{font-variant-numeric:tabular-nums;color:var(--muted);width:36px}
+.pill{display:inline-block;font-size:.72rem;font-weight:600;padding:1px 8px;border-radius:999px;white-space:nowrap}
+.pill.new{background:var(--new-bg);color:var(--new)} .pill.moved{background:var(--moved-bg);color:var(--moved)} .pill.renamed{background:var(--renamed-bg);color:var(--renamed)}
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px}
+.two ul{margin:0;padding-left:1.2em;display:flex;flex-direction:column;gap:8px}
+.two li{max-width:65ch}
+.foot{font-size:.8rem;color:var(--muted)}
+@media (prefers-reduced-motion:no-preference){.sheet-inner{transition:zoom .15s}}
+</style>
+
+<div class="wrap">
+  <header>
+    <a href="index.html" style="font-size:.9rem">← กลับหน้าการวิเคราะห์</a>
+    <div class="eyebrow">ศูนย์เทคโนโลยีโลหะและวัสดุแห่งชาติ · National Metal and Materials Technology Center</div>
+    <h1>ผังองค์กร MTEC ฉบับเสนอ</h1>
+    <p class="lede">ข้อเสนอปรับโครงสร้างจากผังที่มีผล 1 ธันวาคม 2569 โดยเทียบกับ BIOTEC, NECTEC และ NANOTEC แนวทางคือคงกลุ่มวิจัยและรองผู้อำนวยการทั้ง 4 ด้านไว้ แล้วเติมหน้าที่ที่ยังขาด และรวมงานที่กระจายอยู่ให้มีเจ้าภาพชัดเจน</p>
+  </header>
+
+  <div class="stats" id="stats"></div>
+
+  <div class="bar">
+    <div class="tabs" role="tablist" aria-label="เลือกผัง">
+      <button id="tab-proposed" role="tab" aria-selected="true" data-view="proposed">โครงสร้างที่เสนอ</button>
+      <button id="tab-current" role="tab" aria-selected="false" data-view="current">โครงสร้างปัจจุบัน (1 ธ.ค. 2569)</button>
+    </div>
+    <div class="zoom"><span>ขนาด</span>
+      <button id="z-out" aria-label="ย่อ">−</button>
+      <button id="z-fit">พอดีจอ</button>
+      <button id="z-100">100%</button>
+      <button id="z-in" aria-label="ขยาย">+</button>
+    </div>
+  </div>
+  <div class="legend" id="legend">
+    <span><i class="sw"></i>คงเดิม</span>
+    <span><i class="sw new"></i>หน่วยงานใหม่</span>
+    <span><i class="sw moved"></i>ย้ายสังกัด</span>
+    <span><i class="sw renamed"></i>เปลี่ยนชื่อหรือขยายภารกิจ</span>
+    <span><i class="sw" style="border:3px double var(--line)"></i>สถาบัน</span>
+  </div>
+
+  <div class="sheet" id="sheet"><div class="sheet-inner" id="chart"></div></div>
+
+  <section class="panel">
+    <h2>ทะเบียนการเปลี่ยนแปลง</h2>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>#</th><th>ประเภท</th><th>หน่วยงาน</th><th>จาก → ไป</th><th>เหตุผล / เทียบศูนย์อื่น</th></tr></thead>
+      <tbody>
+        <tr><td class="n">1</td><td><span class="pill new">ใหม่</span></td><td>ฝ่ายบริหารโครงสร้างพื้นฐานและเครื่องมือวิจัย (RIE)</td><td>– → รองฯ ด้านบริหาร</td><td>งานเครื่องมือของ MTEC (ESS) อยู่ในฝ่ายบริหารงานทั่วไป ขณะที่ BIOTEC (ฝ่าย RFM) และ NANOTEC (ฝ่าย IFES) วางงานเครื่องมือไว้ในฝ่ายโครงสร้างพื้นฐานใต้รองฯ ด้านบริหาร</td></tr>
+        <tr><td class="n">2</td><td><span class="pill moved">ย้าย</span></td><td>งานวิศวกรรมสนับสนุน (ESS)</td><td>ฝ่าย GMD → ฝ่าย RIE</td><td>ESS ทำหน้าที่เทียบเท่างาน EQS ของ BIOTEC และ NANOTEC จึงควรอยู่ในฝ่ายโครงสร้างพื้นฐาน ไม่ใช่ฝ่ายธุรการ</td></tr>
+        <tr><td class="n">3</td><td><span class="pill new">ใหม่</span></td><td>งานมาตรฐานและระบบคุณภาพห้องปฏิบัติการ (LQS)</td><td>– → ฝ่าย RIE</td><td>ดูแลระบบ ISO/IEC 17025 และความปลอดภัยห้องปฏิบัติการ แยกจากผู้ให้บริการทดสอบใน TSMA เพื่อความเป็นอิสระ ฝ่าย RIE จึงมีโครงแบบเดียวกับฝ่าย IFES ของ NANOTEC (งาน EQS คู่กับงาน SRL)</td></tr>
+        <tr><td class="n">4</td><td><span class="pill moved">ย้าย</span></td><td>งานกลยุทธ์พัฒนาบุคลากรและองค์กร (SHOD)</td><td>ฝ่าย PSE → ฝ่าย HKD</td><td>รวมการพัฒนาคนภายในและภายนอกไว้ที่เดียว ฝ่าย PSE จะได้โฟกัสเรื่องแผนและการประเมินผล เทียบฝ่าย PSD ของ NECTEC</td></tr>
+        <tr><td class="n">5</td><td><span class="pill renamed">เปลี่ยนชื่อ</span></td><td>ฝ่ายเผยแพร่ความรู้เทคโนโลยีวัสดุ (MTD) → ฝ่ายพัฒนาบุคลากรและขับเคลื่อนความรู้ (HKD)</td><td>คงอยู่ใต้รองฯ ด้านบริหาร</td><td>ขยายภารกิจให้ครอบคลุม HR ภายใน (SHOD) กำลังคนด้านวัสดุ (HMS) และการสื่อสารความรู้ (KMC)</td></tr>
+        <tr><td class="n">6</td><td><span class="pill renamed">ปรับภารกิจ</span></td><td>ฝ่ายแผนกลยุทธ์และประเมินผล (PSE)</td><td>3 งาน → 2 งาน</td><td>เหลืองาน PSS และ OES ใช้เป็นจุดประสานกับงาน RISD ผ่าน RACI และใช้รอบแผนร่วมกัน</td></tr>
+        <tr><td class="n">7</td><td><span class="pill renamed">ปรับภารกิจ</span></td><td>ฝ่ายบริหารงานทั่วไป (GMD)</td><td>3 งาน → 2 งาน</td><td>เหลือเฉพาะงานธุรการ (GAD) และงานเลขานุการผู้บริหาร (SEC)</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section class="two">
+    <div class="panel">
+      <h2>สิ่งที่คงไว้และเหตุผล</h2>
+      <ul>
+        <li><strong>กลุ่มวิจัย 6 กลุ่มและสถาบัน TIIS</strong> คงไว้ใต้รองฯ ด้านวิจัยและพัฒนาทั้ง 2 ด้าน เพราะข้อเสนอนี้ปรับเฉพาะสายสนับสนุนและสายบริหาร</li>
+        <li><strong>ฝ่าย TSMA ทั้ง 5 งาน</strong> คงเป็นหน่วยให้บริการวิเคราะห์ทดสอบ ส่วนระบบคุณภาพย้ายไปอยู่ที่งาน LQS</li>
+        <li><strong>ฝ่าย BDD และงาน CS</strong> คงไว้ และควรตั้งเป็น one-stop สำหรับลูกค้า ใช้ CRM ร่วมกับงาน SAPD</li>
+        <li><strong>ฝ่าย RPM</strong> ซึ่งแยกการบริหารโครงการตามแหล่งทุน คงไว้ตามเดิม</li>
+        <li><strong>งาน SAPD</strong> ดูแลความร่วมมือระหว่างประเทศอยู่แล้ว จึงไม่ต้องตั้งหน่วยใหม่ ควรตั้ง KPI ด้านทุนและเครือข่ายต่างประเทศให้ชัด</li>
+      </ul>
+    </div>
+    <div class="panel">
+      <h2>ประเด็นที่ยังต้องตัดสินใจ</h2>
+      <ul>
+        <li><strong>ภาระของรองฯ ด้านสนับสนุน</strong> ยังมี 4 ฝ่าย 13 งาน ทางเลือกคือแยก TSMA เป็นฝ่ายวิเคราะห์ (PHA, CBA, MMS) กับฝ่ายทดสอบ (PHM, BDT)</li>
+        <li><strong>อัตรากำลังของงานใหม่ 1 งาน</strong> (LQS) ควรใช้วิธีโอนย้ายคนจากงานเดิมก่อนเปิดอัตราใหม่ ต้องยืนยันด้วยข้อมูลบุคลากรรายหน่วย</li>
+        <li><strong>RACI ระหว่างงาน RISD กับ PSS</strong> ต้องแบ่งให้ชัดว่าใครดูแผนวิจัยและใครดูแผนองค์กร</li>
+        <li><strong>ชื่อย่อใหม่</strong> (RIE, LQS, HKD) เลือกให้ไม่ซ้ำกับหน่วยงานของศูนย์อื่นที่มีอยู่ในผัง แต่ควรตรวจกับทะเบียนชื่อย่อของ สวทช. อีกครั้ง</li>
+      </ul>
+    </div>
+  </section>
+
+  <p class="foot">ข้อเสนอเพื่อประกอบการพิจารณา ไม่ใช่ผังโครงสร้างที่ได้รับอนุมัติ · โครงสร้างปัจจุบันถอดจากผังโครงสร้างที่มีผลบังคับใช้ 1 ธันวาคม 2569 (หน้า 6)</p>
+</div>
+
+<script>
+const N=(th,en,ab,o={})=>({th,en,ab,...o});
+// ---- shared units ----
+const RG1=[N("กลุ่มวิจัยนวัตกรรมเซรามิกส์และเทคโนโลยีสิ่งแวดล้อม","Innovative Ceramics and Environmental Technology Research Group","ICET",{k:"rg"}),
+ N("กลุ่มวิจัยนวัตกรรมโพลิเมอร์และยาง","Polymer and Rubber Innovation Research Group","PRI",{k:"rg"}),
+ N("กลุ่มวิจัยวัสดุและอุปกรณ์เฉพาะทางชีวภาพ","Biofunctional Materials and Devices Research Group","BMD",{k:"rg"}),
+ N("สถาบันเทคโนโลยีและสารสนเทศเพื่อการพัฒนาที่ยั่งยืน","Technology and Informatics Institute for Sustainability","TIIS",{k:"inst"})];
+const RG2=[N("กลุ่มวิจัยกระบวนการทางวัสดุและการผลิตอัตโนมัติ","Material Processing and Manufacturing Automation Research Group","MMA",{k:"rg"}),
+ N("กลุ่มวิจัยการออกแบบเชิงวิศวกรรมและการคำนวณ","Engineering Design and Computation Research Group","EDC",{k:"rg"}),
+ N("กลุ่มวิจัยเทคโนโลยีอัจฉริยะและความมั่นคงของวัสดุ","Reliability, Materials and Intelligent Technology Research Group","RMT",{k:"rg"})];
+const S={
+ GRM:N("งานบริหารโครงการวิจัยงบประมาณแผ่นดิน","Government Budget Research Project Management Section","GRM"),
+ RPS:N("งานสนับสนุนโครงการวิจัย","Research Project Support Section","RPS"),
+ RGM:N("งานบริหารโครงการรับทุนวิจัย","Research Grant Project Management Section","RGM"),
+ IBL:N("งานประสานธุรกิจและอุตสาหกรรม","Industrial and Business Liaison Section","IBL"),
+ BAM:N("งานวิเคราะห์และพัฒนารูปแบบทางธุรกิจ","Business Analysis and Business Model Development Section","BAM"),
+ CS:N("งานบริการลูกค้า","Customer Services Section","CS"),
+ RISD:N("งานกลยุทธ์และขับเคลื่อนแผนการวิจัยและนวัตกรรม","Research and Innovation Strategy and Driving Section","RISD"),
+ SAPD:N("งานพัฒนาพันธมิตรเชิงกลยุทธ์ (รวมความร่วมมือระหว่างประเทศ)","Strategic Alliance and Partnership Development Section","SAPD"),
+ PHA:N("งานวิเคราะห์เชิงฟิสิกส์","Physical Analysis Section","PHA"),
+ CBA:N("งานวิเคราะห์เชิงเคมีและชีวภาพ","Chemical and Biological Analysis Section","CBA"),
+ MMS:N("งานจุลทรรศน์และจุลวิเคราะห์","Microscopy and Microanalysis Section","MMS"),
+ PHM:N("งานทดสอบสมบัติทางฟิสิกส์","Physical Measurement Section","PHM"),
+ BDT:N("งานทดสอบการย่อยสลายได้ทางชีวภาพของวัสดุ","Biodegradation Testing Section","BDT"),
+ HMS:N("งานพัฒนากำลังคนเทคโนโลยีวัสดุ","Human Resource Development for Materials Technology Section","HMS"),
+ KMC:N("งานสื่อสารและขับเคลื่อนความรู้","Knowledge Mobilization and Communication Section","KMC"),
+ PSS:N("งานแผนและกลยุทธ์องค์กร","Planning and Strategy Section","PSS"),
+ OES:N("งานประเมินผล","Organization Evaluation Section","OES"),
+ SHOD:N("งานกลยุทธ์พัฒนาบุคลากรและองค์กร","Strategic Human and Organization Development Section","SHOD"),
+ GAD:N("งานธุรการ","General Administration Section","GAD"),
+ SEC:N("งานเลขานุการผู้บริหาร","Executive Secretary Section","SEC"),
+ ESS:N("งานวิศวกรรมสนับสนุน (เทียบเท่างาน EQS ของศูนย์อื่น)","Engineering Support Section","ESS"),
+};
+const D=(th,en,ab,secs,o={})=>N(th,en,ab,{k:"div",secs,...o});
+const RPM=D("ฝ่ายบริหารโครงการวิจัย","Research Project Management Division","RPM",[S.GRM,S.RPS,S.RGM]);
+const BDD=D("ฝ่ายพัฒนาธุรกิจ","Business Development Division","BDD",[S.IBL,S.BAM,S.CS]);
+const TSMA=D("ฝ่ายสนับสนุนเทคนิคด้านวิเคราะห์ลักษณะเฉพาะของวัสดุ","Technical Support for Material Analysis Division","TSMA",[S.PHA,S.CBA,S.MMS,S.PHM,S.BDT]);
+const DEP=(th,en,o)=>({th,en,...o});
+const ED={th:"ผู้อำนวยการ",en:"Executive Director"};
+
+const CURRENT=[
+ DEP("รองผู้อำนวยการด้านวิจัยและพัฒนาวัสดุศาสตร์และวิศวกรรม","Deputy Executive Director, R&D Materials Science and Engineering",{stack:RG1}),
+ DEP("รองผู้อำนวยการด้านวิจัยและพัฒนาการออกแบบและการผลิตสำหรับเทคโนโลยีวัสดุ","Deputy Executive Director, R&D Design and Manufacturing for Materials Technology",{stack:RG2}),
+ DEP("รองผู้อำนวยการด้านสนับสนุนการวิจัยและพัฒนา","Deputy Executive Director, R&D Support",{divs:[RPM,BDD,
+   D("ฝ่ายขับเคลื่อนยุทธศาสตร์การวิจัยและนวัตกรรม","Research and Innovation Strategy Division","RIS",[S.RISD,S.SAPD]),TSMA]}),
+ DEP("รองผู้อำนวยการด้านบริหาร","Deputy Executive Director, Organization Management",{divs:[
+   D("ฝ่ายเผยแพร่ความรู้เทคโนโลยีวัสดุ","Materials Technology Dissemination Division","MTD",[S.HMS,S.KMC]),
+   D("ฝ่ายแผนกลยุทธ์และประเมินผล","Plan Strategy and Evaluation Division","PSE",[S.PSS,S.OES,S.SHOD]),
+   D("ฝ่ายบริหารงานทั่วไป","General Management Division","GMD",[S.GAD,S.SEC,S.ESS])]}),
+];
+const PROPOSED=[
+ CURRENT[0],CURRENT[1],
+ CURRENT[2],
+ DEP("รองผู้อำนวยการด้านบริหาร","Deputy Executive Director, Organization Management",{divs:[
+   D("ฝ่ายแผนกลยุทธ์และประเมินผล","Plan Strategy and Evaluation Division","PSE",[S.PSS,S.OES]),
+   D("ฝ่ายพัฒนาบุคลากรและขับเคลื่อนความรู้","Human Capital and Knowledge Development Division","HKD",
+     [{...S.SHOD,st:"moved",from:"ย้ายจากฝ่าย PSE"},S.HMS,S.KMC],{st:"renamed",from:"เดิม: ฝ่ายเผยแพร่ความรู้เทคโนโลยีวัสดุ (MTD)"}),
+   D("ฝ่ายบริหารโครงสร้างพื้นฐานและเครื่องมือวิจัย","Research Infrastructure and Equipment Management Division","RIE",[
+     {...S.ESS,st:"moved",from:"ย้ายจากฝ่าย GMD"},
+     N("งานมาตรฐานและระบบคุณภาพห้องปฏิบัติการ","Laboratory Quality and Standards Section","LQS",{st:"new"})],{st:"new"}),
+   D("ฝ่ายบริหารงานทั่วไป","General Management Division","GMD",[S.GAD,S.SEC])]}),
+];
+
+const LABEL={new:"ใหม่",moved:"ย้าย",renamed:"เปลี่ยนชื่อ"};
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+function node(n,cls){
+  const st=n.st?` st-${n.st}`:"";
+  return `<div class="node ${cls}${st}"><div class="th">${esc(n.th)}</div><div class="en">${esc(n.en)}</div>`+
+   (n.ab||n.st?`<div class="meta">${n.ab?`<span class="ab">${esc(n.ab)}</span>`:""}${n.st?`<span class="tag">${LABEL[n.st]}</span>`:""}</div>`:"")+
+   (n.from?`<div class="from">${esc(n.from)}</div>`:"")+`</div>`;
+}
+function render(deps){
+  const lis=deps.map(d=>{
+    if(d.stack) return `<li class="dep-li">${node(d,"dep")}<div class="stack">${d.stack.map(x=>node(x,x.k==="inst"?"rg inst":"rg")).join("")}</div></li>`;
+    return `<li class="dep-wide">${node(d,"dep")}<ul>${d.divs.map(v=>`<li class="div-li">${node(v,"div")}<div class="stack">${v.secs.map(s=>node(s,"sec")).join("")}</div></li>`).join("")}</ul></li>`;
+  }).join("");
+  return `<div class="tree">${node(ED,"ed")}<ul>${lis}</ul></div>`;
+}
+function count(deps){
+  let rg=0,inst=0,div=0,sec=0;
+  deps.forEach(d=>{(d.stack||[]).forEach(x=>x.k==="inst"?inst++:rg++);(d.divs||[]).forEach(v=>{div++;sec+=v.secs.length})});
+  return {dep:deps.length,rg,inst,div,sec};
+}
+const cur=count(CURRENT),pro=count(PROPOSED);
+const items=[["รองผู้อำนวยการ","dep"],["กลุ่มวิจัย","rg"],["สถาบัน","inst"],["ฝ่าย","div"],["งาน","sec"]];
+document.getElementById("stats").innerHTML=items.map(([k,f])=>{
+  const d=pro[f]-cur[f];
+  return `<div class="stat"><span class="k">${k}</span><span class="v">${pro[f]}</span><span class="d ${d>0?"up":"same"}">${d>0?`+${d} จากเดิม ${cur[f]}`:`เท่าเดิม`}</span></div>`;
+}).join("")+`<div class="stat"><span class="k">งานต่อฝ่าย</span><span class="v">${(pro.sec/pro.div).toFixed(1)}</span><span class="d same">เดิม ${(cur.sec/cur.div).toFixed(1)}</span></div>`;
+
+const chart=document.getElementById("chart"),sheet=document.getElementById("sheet");
+let view="proposed",z=1;
+function applyZoom(){chart.style.zoom=z}
+function show(v){
+  view=v;
+  chart.innerHTML=render(v==="proposed"?PROPOSED:CURRENT);
+  document.querySelectorAll(".tabs button").forEach(b=>b.setAttribute("aria-selected",String(b.dataset.view===v)));
+  document.getElementById("legend").style.visibility=v==="proposed"?"visible":"hidden";
+  applyZoom();
+}
+function fit(){chart.style.zoom=1;const w=chart.scrollWidth;z=Math.min(1,Math.max(.35,(sheet.clientWidth-2)/w));applyZoom()}
+document.querySelectorAll(".tabs button").forEach(b=>b.addEventListener("click",()=>{show(b.dataset.view);try{localStorage.setItem("mtec-view",b.dataset.view)}catch(e){}}));
+document.getElementById("z-in").onclick=()=>{z=Math.min(1.5,+(z+.1).toFixed(2));applyZoom()};
+document.getElementById("z-out").onclick=()=>{z=Math.max(.35,+(z-.1).toFixed(2));applyZoom()};
+document.getElementById("z-100").onclick=()=>{z=1;applyZoom()};
+document.getElementById("z-fit").onclick=fit;
+let saved=null;try{saved=localStorage.getItem("mtec-view")}catch(e){}
+show(saved==="current"?"current":"proposed");
+if(window.innerWidth>=900) fit();
+</script>
+
+</body>
+</html>

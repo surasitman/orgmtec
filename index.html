@@ -1,0 +1,301 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>การวิเคราะห์โครงสร้าง MTEC</title>
+</head>
+<body>
+
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@500;600;700&family=Sarabun:wght@400;600;700&display=swap">
+<style>
+/* Layout: a single-column briefing document; steel-blue ground, one copper accent for "changed", numbered only where order matters. */
+:root{
+  --bg:#F3F5F6; --surface:#FBFCFC; --band:#E4EBEF; --fg:#15283A; --muted:#4A5866; --rule:#CCD6DD;
+  --accent:#1D6A88; --accent-soft:#E3F0F5; --copper:#A9561A; --copper-soft:#F6EADF; --head:#15283A; --head-fg:#F4F8FB;
+  --display:"Bai Jamjuree","Leelawadee UI",Tahoma,sans-serif;
+  --body:"Sarabun","Leelawadee UI",Tahoma,sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#10161C; --surface:#18212A; --band:#1C2832; --fg:#E3E9EE; --muted:#A3B0BC; --rule:#2C3A46;
+  --accent:#7CC0DB; --accent-soft:#18323F; --copper:#E3A05E; --copper-soft:#3A2816; --head:#22394A; --head-fg:#F4F8FB;
+  color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#10161C; --surface:#18212A; --band:#1C2832; --fg:#E3E9EE; --muted:#A3B0BC; --rule:#2C3A46;
+  --accent:#7CC0DB; --accent-soft:#18323F; --copper:#E3A05E; --copper-soft:#3A2816; --head:#22394A; --head-fg:#F4F8FB;
+  color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:17px;line-height:1.65}
+.wrap{max-width:1120px;margin:0 auto;padding-block:32px 56px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:flex;flex-direction:column;gap:48px}
+h1,h2,h3{font-family:var(--display);margin:0;line-height:1.25;text-wrap:balance}
+h1{font-size:clamp(1.8rem,4vw,2.6rem);font-weight:700}
+h2{font-size:1.55rem;font-weight:700}
+h3{font-size:1.1rem;font-weight:600}
+p{margin:0}
+.eyebrow{font-size:.8rem;font-weight:700;letter-spacing:.08em;color:var(--accent)}
+.muted{color:var(--muted)}
+a{color:var(--accent)}
+a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:4px}
+
+/* header */
+header{display:flex;flex-direction:column;gap:14px}
+header .lede{max-width:66ch;color:var(--muted);font-size:1.05rem}
+.actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:6px}
+.btn{display:inline-flex;align-items:center;gap:10px;padding:11px 18px;border-radius:8px;font-weight:600;text-decoration:none;border:1.5px solid var(--rule);color:var(--fg);background:var(--surface)}
+.btn.primary{background:var(--head);color:var(--head-fg);border-color:var(--head)}
+.btn svg{width:20px;height:20px;flex:none}
+.btn small{font-weight:400;opacity:.75}
+nav.toc{display:flex;flex-wrap:wrap;gap:8px;padding-top:6px;border-top:1px solid var(--rule)}
+nav.toc a{font-size:.9rem;text-decoration:none;color:var(--muted);padding:4px 10px;border-radius:999px;border:1px solid var(--rule);background:var(--surface)}
+
+section{display:flex;flex-direction:column;gap:20px;scroll-margin-top:16px}
+.sec-head{display:flex;flex-direction:column;gap:6px}
+
+/* cards */
+.grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
+.card{background:var(--surface);border:1px solid var(--rule);border-radius:10px;padding:20px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.card.top{border-top:5px solid var(--accent)}
+.card .k{font-size:.8rem;font-weight:700;letter-spacing:.05em;color:var(--accent)}
+.card ul{margin:0;padding-left:1.2em;color:var(--muted)}
+.ask{background:var(--head);color:var(--head-fg);border-radius:10px;padding:18px 22px;display:flex;flex-wrap:wrap;gap:6px 18px;align-items:baseline}
+.ask b{font-family:var(--display);color:var(--accent)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .ask b{color:#9FD3E8}}
+
+/* tables */
+.tbl{overflow-x:auto;border:1px solid var(--rule);border-radius:10px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;min-width:640px;font-size:.95rem}
+th,td{padding:10px 12px;text-align:left;vertical-align:top;border-bottom:1px solid var(--rule)}
+tr:last-child td{border-bottom:0}
+th{font-family:var(--display);font-weight:600;font-size:.85rem;color:var(--muted);background:var(--band)}
+td.num,th.num{text-align:center;font-variant-numeric:tabular-nums}
+.mt{background:var(--accent-soft);color:var(--fg);font-weight:600}
+th.mt{color:var(--accent)}
+tr.sum td{font-weight:600}
+.pill{display:inline-block;font-size:.75rem;font-weight:700;padding:1px 9px;border-radius:999px;white-space:nowrap}
+.pill.new{background:var(--accent-soft);color:var(--accent);border:1.5px dashed var(--accent)}
+.pill.chg{background:var(--copper-soft);color:var(--copper)}
+
+/* big numbers */
+.nums{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px}
+.num-card{border-top:4px solid var(--accent);padding-top:12px;display:flex;flex-direction:column;gap:2px}
+.num-card.same{border-top-color:var(--rule)}
+.num-card .v{font-family:var(--display);font-size:2.6rem;font-weight:700;line-height:1.1;font-variant-numeric:tabular-nums}
+.num-card .l{font-weight:600}
+.num-card .c{font-size:.9rem;color:var(--muted)}
+
+/* issue rows */
+.rows{display:flex;flex-direction:column;border-top:1px solid var(--rule)}
+.row{display:grid;grid-template-columns:minmax(0,260px) minmax(0,1fr);gap:8px 24px;padding:12px 0;border-bottom:1px solid var(--rule)}
+.row b{font-family:var(--display);font-weight:600}
+.row span{color:var(--muted)}
+@media (max-width:640px){.row{grid-template-columns:1fr}}
+
+/* principle */
+.principle{background:var(--accent);color:#F4F8FB;border-radius:12px;padding:28px;display:flex;flex-direction:column;gap:8px}
+.principle h3{font-size:1.6rem;color:#F4F8FB}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .principle{background:#1D5A73}}
+:root[data-theme="dark"] .principle{background:#1D5A73}
+
+/* proposed structure */
+.legend{display:flex;flex-wrap:wrap;gap:8px 16px;font-size:.85rem;color:var(--muted)}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.sw{width:20px;height:13px;border-radius:3px;border:1.5px solid var(--rule);background:var(--surface)}
+.sw.new{border:1.5px dashed var(--accent);background:var(--accent-soft)}
+.sw.chg{border-color:var(--copper);background:var(--copper-soft)}
+.org{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.1fr) minmax(0,1.1fr);gap:16px}
+@media (max-width:860px){.org{grid-template-columns:1fr}}
+.col{display:flex;flex-direction:column;gap:10px;min-width:0}
+.dep{background:var(--head);color:var(--head-fg);border-radius:8px;padding:10px 14px;font-family:var(--display);font-weight:600;font-size:.95rem}
+.divs{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px}
+.dv{background:var(--surface);border:1.5px solid var(--rule);border-radius:8px;padding:10px 12px;display:flex;flex-direction:column;gap:4px}
+.dv.new{border:2px dashed var(--accent);background:var(--accent-soft)}
+.dv.chg{border:2px solid var(--copper);background:var(--copper-soft)}
+.dv .h{font-weight:600;font-size:.92rem;line-height:1.4}
+.dv .h b{font-family:var(--display);color:var(--accent)}
+.dv .s{font-size:.85rem;color:var(--muted)}
+.tn{color:var(--accent);font-weight:600}
+.tc{color:var(--copper);font-weight:600}
+
+/* phases & decisions */
+.phase ul{margin:0;padding-left:1.2em;color:var(--muted);display:flex;flex-direction:column;gap:4px}
+.dec{counter-reset:d;display:flex;flex-direction:column;gap:10px;margin:0;padding:0;list-style:none}
+.dec li{counter-increment:d;display:grid;grid-template-columns:44px 1fr;gap:12px;align-items:baseline;background:var(--surface);border:1px solid var(--rule);border-radius:10px;padding:14px 16px}
+.dec li::before{content:counter(d);font-family:var(--display);font-weight:700;font-size:1.6rem;color:var(--accent);line-height:1}
+
+footer{font-size:.85rem;color:var(--muted);border-top:1px solid var(--rule);padding-top:16px;display:flex;flex-direction:column;gap:4px}
+</style>
+
+<div class="wrap">
+<header>
+  <p class="eyebrow">ศูนย์เทคโนโลยีโลหะและวัสดุแห่งชาติ (MTEC) · สวทช.</p>
+  <h1>การวิเคราะห์โครงสร้าง MTEC เทียบ 4 ศูนย์แห่งชาติ</h1>
+  <p class="lede">เปรียบเทียบโครงสร้างของ BIOTEC, MTEC, NECTEC และ NANOTEC ตามผังที่มีผลบังคับใช้ 1 ธันวาคม 2569 แล้วสรุปเป็นข้อเสนอปรับโครงสร้างสำหรับ MTEC</p>
+  <div class="actions">
+    <a class="btn primary" href="center.pdf" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6"/><path d="M8 14h8M8 17.5h5"/></svg>
+      โครงสร้างองค์กรศูนย์แห่งชาติ <small>PDF · 4 หน้า</small>
+    </a>
+    <a class="btn" href="orgchart.html">ผังองค์กร MTEC ฉบับเสนอ</a>
+    <a class="btn" href="org-comparison-4-centers.xlsx">ตารางเปรียบเทียบ (Excel)</a>
+  </div>
+  <nav class="toc" aria-label="สารบัญ">
+    <a href="#summary">สรุป</a><a href="#compare">เปรียบเทียบ 4 ศูนย์</a><a href="#analysis">วิเคราะห์ MTEC</a><a href="#proposal">ข้อเสนอ</a><a href="#plan">แผนดำเนินการ</a>
+  </nav>
+</header>
+
+<section id="summary">
+  <div class="sec-head"><p class="eyebrow">สรุปสำหรับผู้บริหาร</p><h2>เติมหน้าที่ที่ขาด และรวมงานที่กระจาย</h2></div>
+  <div class="grid3">
+    <div class="card top"><p class="k">สิ่งที่พบ</p><h3>แม่แบบเดียวกัน แต่น้ำหนักต่างกัน</h3><ul><li>ทุกศูนย์มีรองผู้อำนวยการ 4 ด้าน</li><li>MTEC มีงานต่อฝ่ายสูงสุด (3.0) และสายสนับสนุนใหญ่ที่สุด (13 งาน)</li></ul></div>
+    <div class="card top"><p class="k">ประเด็นของ MTEC</p><h3>2 เรื่องที่ควรจัดใหม่</h3><ul><li>งานเครื่องมือ (ESS) อยู่ในฝ่ายธุรการ และยังไม่มีงานระบบคุณภาพห้องปฏิบัติการ</li><li>งานพัฒนาคนแยกอยู่ 2 ฝ่าย</li></ul></div>
+    <div class="card top"><p class="k">ข้อเสนอ</p><h3>เพิ่ม 1 ฝ่าย 1 งาน และย้าย 2 งาน</h3><ul><li>ตั้งฝ่าย RIE รวม ESS กับงานระบบคุณภาพใหม่ (LQS)</li><li>รวมงานพัฒนาคนเป็นฝ่าย HKD</li><li>คงกลุ่มวิจัยและรองผู้อำนวยการ 4 ด้าน</li></ul></div>
+  </div>
+  <div class="ask"><b>สิ่งที่ขอ</b><span>เห็นชอบในหลักการ และมอบหมายจัดทำข้อมูลอัตรากำลังรายหน่วย เพื่อยืนยันข้อเสนอ</span></div>
+</section>
+
+<section id="compare">
+  <div class="sec-head"><p class="eyebrow">เปรียบเทียบ 4 ศูนย์</p><h2>ทุกศูนย์ใช้แม่แบบเดียวกัน</h2>
+  <p class="muted">ผู้อำนวยการมีรองผู้อำนวยการ 4 ด้าน ได้แก่ ด้านวิจัยและพัฒนา 2 ด้านตามสาขาของศูนย์ ด้านสนับสนุนการวิจัยและพัฒนา และด้านบริหาร ของ MTEC คือด้านวัสดุศาสตร์และวิศวกรรม และด้านการออกแบบและการผลิตสำหรับเทคโนโลยีวัสดุ</p></div>
+
+  <h3>จำนวนหน่วยงานตามผังใหม่</h3>
+  <div class="tbl"><table>
+    <thead><tr><th>รายการ</th><th class="num">BIOTEC</th><th class="num mt">MTEC</th><th class="num">NECTEC</th><th class="num">NANOTEC</th></tr></thead>
+    <tbody>
+      <tr><td>กลุ่มวิจัย</td><td class="num">8</td><td class="num mt">6</td><td class="num">7</td><td class="num">5</td></tr>
+      <tr><td>STIU / สถาบัน</td><td class="num">2</td><td class="num mt">1</td><td class="num">2</td><td class="num">0</td></tr>
+      <tr><td>ฝ่าย สายสนับสนุน</td><td class="num">5</td><td class="num mt">4</td><td class="num">3</td><td class="num">3</td></tr>
+      <tr><td>งาน สายสนับสนุน</td><td class="num">9</td><td class="num mt">13</td><td class="num">9</td><td class="num">8</td></tr>
+      <tr><td>ฝ่าย สายบริหาร</td><td class="num">4</td><td class="num mt">3</td><td class="num">3</td><td class="num">3</td></tr>
+      <tr><td>งาน สายบริหาร</td><td class="num">7</td><td class="num mt">8</td><td class="num">8</td><td class="num">8</td></tr>
+      <tr class="sum"><td>รวม ฝ่าย / งาน</td><td class="num">9 / 16</td><td class="num mt">7 / 21</td><td class="num">6 / 17</td><td class="num">6 / 16</td></tr>
+      <tr class="sum"><td>งานต่อฝ่าย</td><td class="num">1.8</td><td class="num mt">3.0</td><td class="num">2.8</td><td class="num">2.7</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>สายสนับสนุนของ MTEC หนาแน่นที่สุด</h3>
+  <div class="nums">
+    <div class="num-card"><span class="v">3.0</span><span class="l">งานต่อฝ่าย</span><span class="c">สูงสุดใน 4 ศูนย์ · BIOTEC 1.8 · NECTEC 2.8 · NANOTEC 2.7</span></div>
+    <div class="num-card"><span class="v">3.5</span><span class="l">งานสนับสนุนต่อ 1 กลุ่มวิจัย</span><span class="c">BIOTEC 2.0 · NECTEC 2.4 · NANOTEC 3.2</span></div>
+    <div class="num-card"><span class="v">13</span><span class="l">งานใต้รองฯ ด้านสนับสนุน</span><span class="c">ศูนย์อื่น 8–9 งาน · ฝ่าย TSMA ฝ่ายเดียวมี 5 งาน</span></div>
+  </div>
+
+  <h3>หน้าที่เดียวกัน แต่วางคนละระดับ</h3>
+  <div class="tbl"><table>
+    <thead><tr><th>หน้าที่</th><th>BIOTEC</th><th class="mt">MTEC</th><th>NECTEC</th><th>NANOTEC</th></tr></thead>
+    <tbody>
+      <tr><td>ความร่วมมือต่างประเทศ</td><td>ฝ่าย IAG</td><td class="mt">งาน SAPD ในฝ่าย RIS</td><td>งาน ICOS</td><td>งาน ICO</td></tr>
+      <tr><td>บริการเครื่องมือ</td><td>งาน EQS ในฝ่าย RFM</td><td class="mt">งาน ESS ในฝ่าย GMD (เทียบเท่า EQS)</td><td>–</td><td>งาน EQS ในฝ่าย IFES</td></tr>
+      <tr><td>พัฒนาบุคลากร</td><td>งาน HOD</td><td class="mt">SHOD (ฝ่าย PSE) + HMS (ฝ่าย MTD)</td><td>ฝ่าย PSD</td><td>งาน HROD</td></tr>
+      <tr><td>ติดตามประเมินผล</td><td>ฝ่าย EMU</td><td class="mt">งาน OES</td><td>งาน ERMS</td><td>งาน MOE</td></tr>
+      <tr><td>ยุทธศาสตร์</td><td>งานในฝ่าย SPO</td><td class="mt">ฝ่าย RIS + งาน PSS (2 สาย)</td><td>งานในฝ่าย SBP</td><td>งานในฝ่าย PBOS</td></tr>
+      <tr><td>วิเคราะห์ทดสอบ</td><td>งาน BTS</td><td class="mt">ฝ่าย TSMA 5 งาน</td><td>ฝ่าย TSS</td><td>งาน SRL</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section id="analysis">
+  <div class="sec-head"><p class="eyebrow">วิเคราะห์ MTEC</p><h2>จุดแข็งของโครงสร้าง MTEC</h2></div>
+  <div class="grid3">
+    <div class="card"><h3>บริการเทคนิคแข็งที่สุดใน สวทช.</h3><p class="muted">ฝ่าย TSMA 5 งาน ครอบคลุมฟิสิกส์ เคมี ชีวภาพ จุลทรรศน์ การวัด และการย่อยสลาย</p></div>
+    <div class="card"><h3>งานธุรกิจครบวงจร</h3><p class="muted">IBL · BAM · CS ตั้งแต่ประสานอุตสาหกรรมจนถึงบริการลูกค้า</p></div>
+    <div class="card"><h3>ยุทธศาสตร์วิจัยมีเจ้าภาพ</h3><p class="muted">ฝ่าย RIS ขับเคลื่อนแผนวิจัย พันธมิตรเชิงกลยุทธ์ และความร่วมมือระหว่างประเทศ (SAPD)</p></div>
+    <div class="card"><h3>บริหารโครงการตามแหล่งทุน</h3><p class="muted">แยกงบประมาณแผ่นดิน (GRM) กับทุนภายนอก (RGM) ติดตามเงื่อนไขได้ง่าย</p></div>
+    <div class="card"><h3>รับภารกิจระดับชาติ</h3><p class="muted">ฝ่าย MTD งาน BDT และสถาบัน TIIS รองรับ BCG และความยั่งยืน</p></div>
+    <div class="card"><h3>เชื่อมโจทย์อุตสาหกรรมการผลิต</h3><p class="muted">รองฯ ด้านการออกแบบและการผลิต ดูแลการผลิตอัตโนมัติและความน่าเชื่อถือของวัสดุ</p></div>
+  </div>
+
+  <h2>จุดที่ควรปรับ</h2>
+  <div class="rows">
+    <div class="row"><b>สายสนับสนุนหนาแน่น</b><span>รองฯ 1 คนดูแล 4 ฝ่าย 13 งาน และฝ่าย TSMA ฝ่ายเดียวมี 5 งาน</span></div>
+    <div class="row"><b>ยุทธศาสตร์อยู่ 2 สาย</b><span>RISD อยู่สายสนับสนุน ส่วน PSS อยู่สายบริหาร เสี่ยงที่แผนและ KPI จะซ้อนกัน</span></div>
+    <div class="row"><b>จุดติดต่อพันธมิตรหลายจุด</b><span>SAPD · IBL · CS ลูกค้าอาจต้องติดต่อหลายทาง</span></div>
+    <div class="row"><b>ฝ่ายแผนรวมหลายบทบาท</b><span>ฝ่าย PSE รวมงานแผน งานประเมินผล และงาน HR ไว้ในฝ่ายเดียว</span></div>
+    <div class="row"><b>งานเครื่องมืออยู่ในฝ่ายธุรการ</b><span>งาน ESS (เทียบเท่า EQS) อยู่ในฝ่าย GMD ขณะที่ BIOTEC และ NANOTEC วางไว้ในฝ่ายโครงสร้างพื้นฐาน</span></div>
+    <div class="row"><b>งานพัฒนาคนแยกกัน</b><span>SHOD อยู่ในฝ่ายแผน (PSE) ส่วน HMS อยู่ในฝ่าย MTD</span></div>
+  </div>
+</section>
+
+<section id="proposal">
+  <div class="principle"><p class="eyebrow" style="color:#CFE6EF">หลักการของข้อเสนอ</p><h3>เติมหน้าที่ที่ขาด รวมงานที่กระจาย</h3><p>คงกลุ่มวิจัย 6 กลุ่ม สถาบัน TIIS และรองผู้อำนวยการ 4 ด้านไว้ตามเดิม ปรับเฉพาะสายบริหาร</p></div>
+
+  <div class="sec-head"><p class="eyebrow">ข้อเสนอ</p><h2>โครงสร้างที่เสนอ</h2></div>
+  <div class="legend"><span><i class="sw"></i>คงเดิม</span><span><i class="sw new"></i>หน่วยงานใหม่</span><span><i class="sw chg"></i>ย้าย เปลี่ยนชื่อ หรือปรับภารกิจ</span></div>
+  <div class="org">
+    <div class="col">
+      <div class="dep">รองฯ วิจัยและพัฒนา 2 ด้าน</div>
+      <div class="dv"><span class="h">วัสดุศาสตร์และวิศวกรรม</span><span class="s">ICET · PRI · BMD · TIIS</span></div>
+      <div class="dv"><span class="h">การออกแบบและการผลิต</span><span class="s">MMA · EDC · RMT</span></div>
+    </div>
+    <div class="col">
+      <div class="dep">รองฯ ด้านสนับสนุนการวิจัยและพัฒนา</div>
+      <div class="divs">
+        <div class="dv"><span class="h"><b>RPM</b> บริหารโครงการวิจัย</span><span class="s">GRM · RPS · RGM</span></div>
+        <div class="dv"><span class="h"><b>BDD</b> พัฒนาธุรกิจ</span><span class="s">IBL · BAM · CS</span></div>
+        <div class="dv"><span class="h"><b>RIS</b> ยุทธศาสตร์การวิจัยและนวัตกรรม</span><span class="s">RISD · SAPD</span></div>
+        <div class="dv"><span class="h"><b>TSMA</b> วิเคราะห์ลักษณะเฉพาะวัสดุ</span><span class="s">PHA · CBA · MMS · PHM · BDT</span></div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="dep">รองฯ ด้านบริหาร</div>
+      <div class="divs">
+        <div class="dv chg"><span class="h"><b>PSE</b> แผนกลยุทธ์และประเมินผล</span><span class="s">PSS · OES</span></div>
+        <div class="dv chg"><span class="h"><b>HKD</b> <span class="tc">เปลี่ยนชื่อ</span> พัฒนาบุคลากรและขับเคลื่อนความรู้</span><span class="s"><span class="tc">SHOD ย้าย</span> · HMS · KMC</span></div>
+        <div class="dv new"><span class="h"><b>RIE</b> <span class="tn">ใหม่</span> โครงสร้างพื้นฐานและเครื่องมือวิจัย</span><span class="s"><span class="tc">ESS ย้าย</span> · <span class="tn">LQS ใหม่</span></span></div>
+        <div class="dv chg"><span class="h"><b>GMD</b> บริหารงานทั่วไป</span><span class="s">GAD · SEC</span></div>
+      </div>
+    </div>
+  </div>
+
+  <h3>ทะเบียนการเปลี่ยนแปลง 7 รายการ</h3>
+  <div class="tbl"><table>
+    <thead><tr><th class="num">#</th><th>ประเภท</th><th>หน่วยงาน</th><th>จาก → ไป</th><th>เหตุผล / เทียบศูนย์อื่น</th></tr></thead>
+    <tbody>
+      <tr><td class="num">1</td><td><span class="pill new">ใหม่</span></td><td>ฝ่ายบริหารโครงสร้างพื้นฐานและเครื่องมือวิจัย (RIE)</td><td>– → รองฯ ด้านบริหาร</td><td>BIOTEC (ฝ่าย RFM) และ NANOTEC (ฝ่าย IFES) วางงานเครื่องมือไว้ในฝ่ายโครงสร้างพื้นฐานใต้รองฯ ด้านบริหาร</td></tr>
+      <tr><td class="num">2</td><td><span class="pill chg">ย้าย</span></td><td>งานวิศวกรรมสนับสนุน (ESS)</td><td>ฝ่าย GMD → ฝ่าย RIE</td><td>ESS เทียบเท่างาน EQS ของศูนย์อื่น จึงควรอยู่ในฝ่ายโครงสร้างพื้นฐาน ไม่ใช่ฝ่ายธุรการ</td></tr>
+      <tr><td class="num">3</td><td><span class="pill new">ใหม่</span></td><td>งานมาตรฐานและระบบคุณภาพห้องปฏิบัติการ (LQS)</td><td>– → ฝ่าย RIE</td><td>ดูแล ISO/IEC 17025 แยกจากผู้ให้บริการทดสอบใน TSMA เพื่อความเป็นอิสระ ฝ่าย RIE จึงมีโครงแบบเดียวกับฝ่าย IFES ของ NANOTEC (EQS + SRL)</td></tr>
+      <tr><td class="num">4</td><td><span class="pill chg">ย้าย</span></td><td>งานกลยุทธ์พัฒนาบุคลากรและองค์กร (SHOD)</td><td>ฝ่าย PSE → ฝ่าย HKD</td><td>รวมการพัฒนาคนภายในและภายนอกไว้ที่เดียว เทียบฝ่าย PSD ของ NECTEC</td></tr>
+      <tr><td class="num">5</td><td><span class="pill chg">เปลี่ยนชื่อ</span></td><td>ฝ่าย MTD → ฝ่ายพัฒนาบุคลากรและขับเคลื่อนความรู้ (HKD)</td><td>คงใต้รองฯ ด้านบริหาร</td><td>ขยายภารกิจให้ครอบคลุม HR ภายใน (SHOD) กำลังคนด้านวัสดุ (HMS) และการสื่อสารความรู้ (KMC)</td></tr>
+      <tr><td class="num">6</td><td><span class="pill chg">ปรับภารกิจ</span></td><td>ฝ่ายแผนกลยุทธ์และประเมินผล (PSE)</td><td>3 งาน → 2 งาน</td><td>เหลืองาน PSS และ OES ใช้ RACI ประสานกับงาน RISD</td></tr>
+      <tr><td class="num">7</td><td><span class="pill chg">ปรับภารกิจ</span></td><td>ฝ่ายบริหารงานทั่วไป (GMD)</td><td>3 งาน → 2 งาน</td><td>เหลืองานธุรการ (GAD) และงานเลขานุการผู้บริหาร (SEC)</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>ก่อนและหลังการปรับ</h3>
+  <div class="nums">
+    <div class="num-card"><span class="v">7 → 8</span><span class="l">ฝ่าย</span><span class="c">เพิ่มฝ่าย RIE</span></div>
+    <div class="num-card"><span class="v">21 → 22</span><span class="l">งาน</span><span class="c">เพิ่มงาน LQS</span></div>
+    <div class="num-card same"><span class="v">6</span><span class="l">กลุ่มวิจัย</span><span class="c">คงเดิม รวมสถาบัน TIIS</span></div>
+    <div class="num-card same"><span class="v">4</span><span class="l">รองผู้อำนวยการ</span><span class="c">คงเดิม · สายสนับสนุน 4 ฝ่าย 13 งาน · สายบริหาร 4 ฝ่าย 9 งาน</span></div>
+  </div>
+</section>
+
+<section id="plan">
+  <div class="sec-head"><p class="eyebrow">การดำเนินการ</p><h2>แผนดำเนินการ 3 ระยะ</h2></div>
+  <div class="grid3">
+    <div class="card top phase"><p class="k">1 · ทำได้ทันที ไม่ต้องแก้ผัง</p><ul><li>ทำ RACI ระหว่าง RISD กับ PSS</li><li>ตั้ง one-stop ลูกค้า ใช้ CRM ร่วม (IBL · SAPD · CS)</li><li>ตั้ง KPI ทุนและเครือข่ายต่างประเทศให้ SAPD</li><li>ตั้ง KPI ฝ่าย TSMA: รายได้ อัตราคืนทุน ระยะเวลาบริการ ISO/IEC 17025</li></ul></div>
+    <div class="card top phase"><p class="k">2 · ระยะสั้น 0–6 เดือน</p><ul><li>เก็บข้อมูลอัตรากำลังรายหน่วย</li><li>จัดทำ JD และ Role Profile</li><li>ศึกษาความเป็นไปได้ของฝ่าย RIE และ HKD</li></ul></div>
+    <div class="card top phase"><p class="k">3 · รอบทบทวนโครงสร้างถัดไป</p><ul><li>เสนอผังใหม่ (RIE · HKD)</li><li>พิจารณาแยก TSMA เป็น 2 ฝ่าย</li><li>เสนอ สวทช. ปรับชื่อย่อให้ไม่ซ้ำข้ามศูนย์</li></ul></div>
+  </div>
+
+  <h2>สิ่งที่ขอให้ผู้บริหารพิจารณา</h2>
+  <ol class="dec">
+    <li><span>เห็นชอบหลักการ เติมหน้าที่ที่ขาด รวมงานที่กระจาย โดยไม่ปรับกลุ่มวิจัย</span></li>
+    <li><span>มอบหมายหน่วยงานรับผิดชอบ จัดทำข้อมูลอัตรากำลังรายหน่วย เพื่อยืนยันข้อเสนอ</span></li>
+    <li><span>เลือกแนวทางของฝ่าย TSMA: คงไว้ 5 งาน หรือแยกเป็นฝ่ายวิเคราะห์กับฝ่ายทดสอบ</span></li>
+    <li><span>อนุมัติให้เริ่มมาตรการระยะที่ 1 ซึ่งไม่ต้องแก้ผังได้ทันที</span></li>
+  </ol>
+</section>
+
+<footer>
+  <p>ข้อเสนอเพื่อประกอบการพิจารณา ไม่ใช่ผังโครงสร้างที่ได้รับอนุมัติ</p>
+  <p>ที่มา: <a href="center.pdf" target="_blank" rel="noopener">โครงสร้างองค์กรศูนย์แห่งชาติ</a> (มีผลบังคับใช้ 1 ธันวาคม 2569) · จำนวนนับจากกล่องในผัง ยังไม่รวมข้อมูลบุคลากรและงบประมาณ · หน้าที่ของงาน SAPD (ความร่วมมือระหว่างประเทศ) และ ESS (เทียบเท่า EQS) ได้รับการยืนยันจาก MTEC เพิ่มเติมจากผัง</p>
+</footer>
+</div>
+
+</body>
+</html>
